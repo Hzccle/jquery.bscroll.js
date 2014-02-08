@@ -1,0 +1,17 @@
+.bs-scroll-x {
+    height: 10px;
+}
+
+.bs-scroll-x > .bs-lift-x, .bs-scroll-y > .bs-lift-y {
+    background: black;
+    opacity: 0.8;
+    border-radius: 10px;
+}
+
+.bs-scroll-x > .bs-lift-x {
+    height: 100%;
+}
+
+.bs-scroll-y {
+    width: 10px;
+}

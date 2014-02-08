@@ -403,7 +403,7 @@
 
             this.initTarget = function () {
                 this.$target
-                    .addClass(".bs-container")
+                    .addClass("bs-container")
                     .css({
                         overflow: "hidden",
                         outline: "none"

@@ -86,6 +86,9 @@
                 // Événement à l'entrée de la souris sur $target
                 this.$target.on('mouseenter', {t: this}, this.onMouseEnter);
 
+                // Événement au mouvement de la souris sur $target
+                this.$target.on('mousemove', {t: this}, this.onMouseMove);
+
                 // Événements à le sortie de la souris sur $target
                 this.$target.on('mouseleave', {t: this}, this.onMouseLeave);
 
@@ -155,6 +158,15 @@
                 e.data.t.$target.children(".bs-scroll-x, .bs-scroll-y").show();
                 e.preventDefault();
                 e.stopPropagation();
+            };
+
+            this.onMouseMove = function(e)
+            {
+                if(e.data.t.options.events.arrows) {
+                    e.data.t.$target.attr('tabindex', 0);
+                    e.data.t.$target.focus();
+                }
+                e.data.t.$target.children(".bs-scroll-x, .bs-scroll-y").show();
             };
 
             this.onMouseLeave = function (e) {
@@ -357,7 +369,7 @@
                 this.scrolls.x.$scroll.css({
                     width: this.dimensions.outerWidth,
                     left: this.$target.scrollLeft() - this.dimensions.padding.left,
-                    top: this.$target.scrollTop() - this.dimensions.scrolls.x.offsetTop + this.dimensions.outerHeight - this.scrolls.x.$scroll.height()
+                    top: this.$target.scrollTop() - this.dimensions.scrollHeight + this.dimensions.outerHeight - this.scrolls.x.$scroll.height()
                 });
 
                 this.placeLiftX();
@@ -374,7 +386,7 @@
                 this.scrolls.y.$scroll.css({
                     height: this.dimensions.outerHeight,
                     left: this.$target.scrollLeft() - this.dimensions.padding.left + this.dimensions.outerWidth - this.scrolls.y.$scroll.width(),
-                    top: this.$target.scrollTop() - this.dimensions.scrolls.y.offsetTop
+                    top: this.$target.scrollTop() - this.dimensions.scrollHeight - (this.scrolls.x ? this.scrolls.x.$scroll.height() : 0)
                 });
 
                 this.placeLiftY();

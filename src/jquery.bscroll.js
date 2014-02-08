@@ -139,6 +139,7 @@
                             scrollY = t.scrolls.y;
                         if (t.dimensions.scrollWidth !== dimensions.scrollWidth || t.dimensions.scrollHeight !== dimensions.scrollHeight) {
                             if (dimensions.scrollHeight !== t.dimensions.scrollHeight + (scrollX ? scrollX.$scroll.height() : 0) + (scrollY ? scrollY.$scroll.height() : 0) || dimensions.width !== t.dimensions.width) {
+                                console.log("resize");
                                 t.$target.resize();
                             }
                         }
@@ -369,7 +370,7 @@
                 this.scrolls.x.$scroll.css({
                     width: this.dimensions.outerWidth,
                     left: this.$target.scrollLeft() - this.dimensions.padding.left,
-                    top: this.$target.scrollTop() - this.dimensions.scrollHeight + this.dimensions.outerHeight - this.scrolls.x.$scroll.height()
+                    top: this.$target.scrollTop() - this.dimensions.scrollHeight + this.dimensions.outerHeight - this.scrolls.x.$scroll.height() + this.dimensions.padding.bottom
                 });
 
                 this.placeLiftX();
@@ -386,7 +387,7 @@
                 this.scrolls.y.$scroll.css({
                     height: this.dimensions.outerHeight,
                     left: this.$target.scrollLeft() - this.dimensions.padding.left + this.dimensions.outerWidth - this.scrolls.y.$scroll.width(),
-                    top: this.$target.scrollTop() - this.dimensions.scrollHeight - (this.scrolls.x ? this.scrolls.x.$scroll.height() : 0)
+                    top: this.$target.scrollTop() - this.dimensions.scrollHeight - (this.scrolls.x ? this.scrolls.x.$scroll.height() : 0) + this.dimensions.padding.bottom
                 });
 
                 this.placeLiftY();

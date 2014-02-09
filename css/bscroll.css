@@ -16,6 +16,6 @@
 
 .bs-scroll-x > .bs-lift-x, .bs-scroll-y > .bs-lift-y {
     background: black;
-    opacity: 0.8;
-    border-radius: 10px;
+    opacity: 0.6;
+    border-radius: 4px;
 }

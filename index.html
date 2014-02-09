@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>bScroll Test</title>
+    <style>
+        #sample {
+            width: 800px;
+            margin: auto;
+            height: 500px;
+            padding: 15px;
+        }
+
+        #sample img {
+            display: block;
+        }
+
+        #sample2 {
+            width: 50%;
+            height: 300px;
+        }
+
+        .bs-container {
+            border: 1px solid green;
+        }
+    </style>
+    <link rel="stylesheet" href="css/bscroll.css">
+</head>
+<body>
+<h1>bScroll tests</h1>
+
+    <div id="sample">
+        <div id="sample2">
+            <img src="img/baccano.jpg">
+        </div>
+        <img src="img/baccano.jpg">
+    </div>
+
+    <script src="min/jquery.min.js"></script>
+    <script src="src/jquery.mousewheel.js"></script>
+    <script src="src/jquery.bscroll.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#sample").bScroll();
+            $("#sample2").bScroll({
+                events: {
+                    arrows: false
+                },
+                propagate: true
+            });
+        });
+    </script>
+</body>
+</html>

@@ -16,6 +16,7 @@
 
             this.dimensions = null;
 
+            // Merging options
             this.options = $.extend(true, {
                 speed: 20,
                 propagate: false,
@@ -39,65 +40,67 @@
                 y: null
             };
 
+            // bScroll initialization
             this.init = function () {
-                // Initialisation de la cible $target
+                // $target initialization
                 this.initTarget();
 
-                // Initialisation des dimensions
+                // dimensions initialization
                 this.dimensions = this.calculateDimensions();
 
-                // Initialisation des besoins
+                // needs initialization
                 this.needs = this.checkNeeds();
 
-                // Création des scrollbars si nécessaire
+                // Scrollbars creation when necessary
                 this.createScrolls();
 
-                // Placement des scrollbars
+                // Scrollbars placement
                 this.placeScrolls();
 
-                // Initialisation des événements
+                // Events initialization
                 this.initEvents();
             };
 
+            // Should be call when the target is resized or got DOM modifications
             this.onResize = function (e) {
-                // On supprime les scrolls qui existent déjà
+                // Scrollbars removal
                 e.data.t.removeScrolls();
 
-                // Initialisation des dimensions
+                // dimensions initialization
                 e.data.t.dimensions = e.data.t.calculateDimensions();
 
-                // Initialisation des besoins
+                // needs initialization
                 e.data.t.needs = e.data.t.checkNeeds();
 
-                // Création des scrollbars si nécessaire
+                // Scrollbars creation when necessary
                 e.data.t.createScrolls();
 
-                // Placement des scrollbars
+                // Scrollbars placement
                 e.data.t.placeScrolls();
 
-                // Initialisation des événements
+                // Events initialization
                 e.data.t.initEvents();
             };
 
             this.initEvents = function () {
-                // Reset des events
+                // Events reset
                 this.resetEvents();
 
-                // Événement à l'entrée de la souris sur $target
+                // Event when the mouse enter on the target
                 this.$target.on('mouseenter', {t: this}, this.onMouseEnter);
 
-                // Événement au mouvement de la souris sur $target
+                // Event when the mouse move hover the target
                 this.$target.on('mousemove', {t: this}, this.onMouseMove);
 
-                // Événements à le sortie de la souris sur $target
+                // Event when the mouse leave the target
                 this.$target.on('mouseleave', {t: this}, this.onMouseLeave);
 
-                // Événements molette
+                // Mouse wheel events
                 if (this.options.events.mousewheel) {
                     this.$target.on('mousewheel', {t: this}, this.onMouseWheel);
                 }
 
-                // Événements clavier
+                // Keyboard events
                 if (this.options.events.arrows) {
                     this.$target.on('keydown', {t: this}, this.onKeyDown);
                 }
@@ -109,7 +112,7 @@
                         y: 0
                     };
 
-                // Événements touchscreen
+                // Touchscreen events
                 if (this.options.events.arrows) {
                     if (supportsTouch) {
 
@@ -126,32 +129,33 @@
                     this.$target.children('.bs-scroll-x, .bs-scroll-y').on('mousedown', {start: start, t: this}, this.onMouseDownLift);
                 }
 
-                // Événements lors du redimensionnement de la fenêtre
+                // Events for window resize
                 if (this.options.events.resize) {
                     $(window).on('resize', {t: this}, this.onResize);
                     this.$target.on('resize', {t: this}, this.onResize);
                 }
 
+                // Check periodically if the target changed size or got DOM modifications
                 if (this.options.autoupdate) {
+                    // Saving timer on context
                     this.intervalChecker = setInterval(function () {
                         var dimensions = t.calculateDimensions(),
                             scrollX = t.scrolls.x,
                             scrollY = t.scrolls.y;
-                        if (t.dimensions.scrollWidth !== dimensions.scrollWidth || t.dimensions.scrollHeight !== dimensions.scrollHeight) {
-                            if (dimensions.scrollHeight !== t.dimensions.scrollHeight + (scrollX ? scrollX.$scroll.height() : 0) + (scrollY ? scrollY.$scroll.height() : 0) || dimensions.width !== t.dimensions.width) {
-                                console.log("resize");
-                                t.$target.resize();
-                            }
+                        if ((t.dimensions.innerWidth != dimensions.innerWidth || t.dimensions.innerHeight != dimensions.innerHeight) || ((t.dimensions.scrollWidth !== dimensions.scrollWidth || t.dimensions.scrollHeight !== dimensions.scrollHeight) && (dimensions.scrollHeight !== t.dimensions.scrollHeight + (scrollX ? scrollX.$scroll.height() : 0) + (scrollY ? scrollY.$scroll.height() : 0) || dimensions.width !== t.dimensions.width))) {
+                            t.$target.resize();
                         }
                     }, this.options.autoupdate);
                 }
 
-//                this.$target.on('scroll', function (e) {
-//                    t.placeScrolls();
-//                });
+                // Scroll event
+                this.$target.on('scroll', function (e) {
+                    t.placeScrolls();
+                });
             };
 
             this.onMouseEnter = function (e) {
+                // Requirements for keyboard events
                 if (e.data.t.options.events.arrows) {
                     e.data.t.$target.attr('tabindex', 0);
                     e.data.t.$target.focus();
@@ -163,6 +167,7 @@
 
             this.onMouseMove = function(e)
             {
+                // Requirements for keyboard events
                 if(e.data.t.options.events.arrows) {
                     e.data.t.$target.attr('tabindex', 0);
                     e.data.t.$target.focus();
@@ -171,6 +176,7 @@
             };
 
             this.onMouseLeave = function (e) {
+                // Removing requirements for keyboard events if the scollbars are not dragged
                 if (!e.data.t.$target.hasClass('bs-lift-moving')) {
                     if (e.data.t.options.events.arrows) {
                         e.data.t.$target.blur();
@@ -197,9 +203,13 @@
                     y: 0
                 };
 
+                // Left key
                 if (e.which === 37 && e.data.t.needs.x) { deltas.x = -e.data.t.options.speed; }
+                // Right key
                 if (e.which === 39 && e.data.t.needs.x) { deltas.x = e.data.t.options.speed; }
+                // Up key
                 if (e.which === 38 && e.data.t.needs.y) { deltas.y = -e.data.t.options.speed; }
+                // Down key
                 if (e.which === 40 && e.data.t.needs.y) { deltas.y = e.data.t.options.speed; }
 
                 e.data.t.scrollTarget(deltas, e);
@@ -278,14 +288,10 @@
             this.scrollTarget = function (deltas, e) {
                 deltas = this.normalizeDeltas(deltas);
 
-                var diff = navigator.userAgent.match(/OPR\//) ? 1 : 0;
-
-                this.$target.scrollLeft(deltas.x + e.data.t.$target.scrollLeft() + diff);
-                this.$target.scrollTop(deltas.y + e.data.t.$target.scrollTop() + diff);
+                this.$target.scrollLeft(deltas.x + e.data.t.$target.scrollLeft());
+                this.$target.scrollTop(deltas.y + e.data.t.$target.scrollTop());
 
                 this.beforePlaceScrolls(deltas, e);
-
-                this.placeScrolls();
             };
 
             this.beforePlaceScrolls = function (deltas, e) {
@@ -304,6 +310,7 @@
                 }
             };
 
+            // Normalization not to exceed inital max scrollHeight / scrollWidth
             this.normalizeDeltas = function (deltas) {
                 if (deltas.x + this.$target.scrollLeft() > this.dimensions.scrollWidth - this.dimensions.outerWidth) { deltas.x = this.dimensions.scrollWidth - this.dimensions.outerWidth - this.$target.scrollLeft(); }
                 if (deltas.x + this.$target.scrollLeft() < 0) { deltas.x = -this.$target.scrollLeft(); }
@@ -446,6 +453,12 @@
                         }
                     }
                 };
+            };
+
+            this.destroy = function () {
+                this.resetEvents();
+                this.$target.removeClass('bs-container');
+                this.$target.children(".bs-scroll-x, .bs-scroll-y").remove();
             };
         }
 

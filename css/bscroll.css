@@ -1,9 +1,9 @@
 .bs-scroll-x {
-    height: 10px;
+    height: 10px;   /* Height of the width scroll */
 }
 
 .bs-scroll-y {
-    width: 10px;
+    width: 10px;    /* Width of the height scroll */
 }
 
 .bs-scroll-x, .bs-scroll-y {

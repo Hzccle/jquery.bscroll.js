@@ -15,16 +15,16 @@ Features
 --------------
   - Mouse wheel interaction, thanks to Brandon Aaron's jQuery plugin
   - Keyboard interaction
-  - Touch screen interaction, for mobiles devices
-  - Scrolls drag
-  - Autoupdate for DOM modifications
+  - Touch screen interaction, for touch screens
+  - Moving of the scrollbars via drag'n drop
+  - Auto update when DOM modifications occure
 
 Usage
 --------------
-This plugin was designed to be user-friendly, but there are somethings you need to know in order to use this plugin:
+This plugin was designed to be user-friendly, but there are some things you need to know in order to use it:
 
   - This plugin has **NOT** been tested for all browsers nor jQuery versions.
-  - The scrollbars have the classical behavior of scrollbars. It implies that if the element that you need to create a horizontal scrollbar have a right padding, then this right padding will be ignored.
+  - The scrollbars have the classic behavior of the originals. It implies that if the element for which you need to create a horizontal scrollbar has a right padding, then this right padding will be ignored.
   - This plugin requires some CSS to do the job.
 
 To initialize a simple bScroll:
@@ -35,15 +35,15 @@ $("#sample").bScroll();
 To initialize a _full options_ bScroll:
 ```javascript
 $("#sample").bScroll({
-    speed: 20,              // Motion value of the scrollbar, in pixels
-    propagate: false,       // Propagate events when there is no motion
+    speed: 20,              // Pixel moving value of the scrollbars
+    propagate: false,       // Spread the events when there is no motion
     events: {
         arrows: true,       // Allow the use of arrows keys to scroll
-        mousewheel: true,   // Allow the use of wheel to scroll
-        touchscreen: true,  // Allow scroll motion for mobiles devices
-        resize: true,       // Allow the plugin to check if the screen is resized
-        lifts: true         // Allow the drag of scroll's lift to scroll
+        mousewheel: true,   // Allow the use of the mouse wheel to scroll
+        touchscreen: true,  // Allow scroll motion for touch screens
+        resize: true,       // Allow the plugin to check if the screen is resized and adjusts itslef
+        lifts: true         // Allow the drag of scroll's bar to scroll
     },
-    autoupdate: 50          // Amount of time after which the plugin check if the element changed size
+    autoupdate: 50          // Cycle duration at the end of which the plugin checks if the element has resized and then adjusts itself, in milliseconds
  });
  ```
